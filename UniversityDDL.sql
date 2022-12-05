@@ -12,6 +12,7 @@ go
 if EXISTS(select * from sys.tables
 				where Name = 'StudentCategory')
 	DROP TABLE dbo.studentCategory;
+go
 
 IF EXISTS(select * from sys.tables
 				where Name = 'AddressTBL')
