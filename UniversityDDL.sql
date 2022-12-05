@@ -65,7 +65,7 @@ go
 
 IF EXISTS(select * from sys.tables
 				where Name = 'Rooms')
-	DROP TABLE dbo.Leases;
+	DROP TABLE dbo.Rooms;
 go
 
 IF EXISTS(select * from sys.tables
