@@ -1,8 +1,8 @@
 IF NOT EXISTS (select * from sys.databases
-					where Name = 'UniversityDB')
+					where Name = 'BrandonDB')
 	Create Database UniversityDB;
 go 
-use UniversityDB;
+use BrandonDB;
 
 IF EXISTS(select * from sys.tables
 				where Name = 'Student')
@@ -14,10 +14,6 @@ if EXISTS(select * from sys.tables
 	DROP TABLE dbo.studentCategory;
 go
 
-IF EXISTS(select * from sys.tables
-				where Name = 'AddressTBL')
-	DROP TABLE dbo.AddressTBL;
-go
 
 IF EXISTS(select * from sys.tables
 				where Name = 'NextOfKin')
@@ -79,7 +75,10 @@ IF EXISTS(select * from sys.tables
 	DROP TABLE dbo.CourseInstructor;
 go
 
-
+IF EXISTS(select * from sys.tables
+				where Name = 'AddressTBL')
+	DROP TABLE dbo.AddressTBL;
+go
 
 
 CREATE TABLE dbo.AddressTBL (
@@ -171,7 +170,7 @@ CREATE TABLE dbo.Student (
 	studentCategoryNo int NOT NULL,
 	nationality varchar(255),
 	specialAccomidations varchar(255),
-	additionalStatus varchar(255),
+	currentStatus varchar(255) CHECK (currentStatus = 'Placed' or currentStatus = 'Waiting'),
 	major varchar(255),
 	minor varchar(255),
 	adviserNo int NOT NULL,
@@ -236,6 +235,8 @@ CREATE TABLE dbo.Invoices (
 
 CREATE TABLE dbo.CourseInstructor (
 	instructorNo INT NOT NULL PRIMARY KEY,
+	firstName varchar(100),
+	lastName varchar(100),
 	phoneNo char(10),
 	email varchar(100),
 	roomNo int,
@@ -243,7 +244,8 @@ CREATE TABLE dbo.CourseInstructor (
 );
 
 CREATE TABLE dbo.Courses (
-	courseNo INT NOT NULL PRIMARY KEY,
+	sectionNo INT NOT NULL PRIMARY KEY,
+	courseNo int,
 	courseTitle varchar(255),
 	instructorNo int NOT NULL,
 	FOREIGN KEY (instructorNo) REFERENCES CourseInstructor(instructorNo)
