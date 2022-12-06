@@ -1,6 +1,6 @@
 IF NOT EXISTS (select * from sys.databases
 					where Name = 'BrandonDB')
-	Create Database UniversityDB;
+	Create Database BrandonDB;
 go 
 use BrandonDB;
 
@@ -148,7 +148,7 @@ CREATE TABLE dbo.ResidenceStaff (
 
 CREATE TABLE dbo.HallsOfResidence (
 	residenceNo int NOT NULL PRIMARY KEY,
-	name varchar(100),
+	hallName varchar(100),
 	addressNo int NOT NULL,
 	phoneNo char(10),
 	hallManagerNo int NOT NULL,
