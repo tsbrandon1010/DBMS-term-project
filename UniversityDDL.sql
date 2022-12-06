@@ -97,8 +97,8 @@ CREATE TABLE dbo.Rooms (
 CREATE TABLE dbo.StudentCategory (
 	studentCategoryNo int NOT NULL PRIMARY KEY,
 	schoolYear int CHECK (schoolYear > 0 AND schoolYear < 7),
-	category varchar(50) CHECK (category = 'undergraduate' OR
-								 category = 'postgraduate')
+	category varchar(50) CHECK (category = 'Undergraduate' OR
+								 category = 'Postgraduate')
 );
 
 CREATE TABLE dbo.Adviser (
@@ -167,7 +167,6 @@ CREATE TABLE dbo.Student (
 	email varchar(100),
 	dateOfBirth DATE,
 	gender varchar(100),
-	studentCategoryNo int NOT NULL,
 	nationality varchar(255),
 	specialAccomidations varchar(255),
 	currentStatus varchar(255) CHECK (currentStatus = 'Placed' or currentStatus = 'Waiting'),
@@ -179,7 +178,7 @@ CREATE TABLE dbo.Student (
 	nextOfKinNo int NOT NULL,
 
 	FOREIGN KEY (addressNo) REFERENCES AddressTBL(addressNo),
-	FOREIGN KEY (studentCategoryNo) REFERENCES StudentCategory(studentCategoryNo),
+	FOREIGN KEY (bannerNo) REFERENCES StudentCategory(studentCategoryNo),
 	FOREIGN KEY (adviserNo) REFERENCES Adviser(adviserNo),
 	FOREIGN KEY (nextOfKinNo) REFERENCES NextOfKin(nextOfKinNo),
 	FOREIGN KEY (residenceNo) REFERENCES HallsOfResidence(residenceNo),
@@ -209,7 +208,7 @@ CREATE TABLE dbo.Payment (
 
 CREATE TABLE dbo.Leases (
 	leaseNo int NOT NULL PRIMARY KEY,
-	durationOfLease TIME,
+	durationOfLease int, --- in months
 	bannerNo int NOT NULL,
 	placeNo int NOT NULL,
 	residenceNo int,
