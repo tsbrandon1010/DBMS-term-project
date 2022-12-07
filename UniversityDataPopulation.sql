@@ -20,8 +20,8 @@ Values (0023, 117, 789, 3);
 
 Insert Into ResidenceStaff(staffNo, firstName, lastName, email, dateOfBirth, gender, position, workLocation, addressNo)
 Values (0113, 'Chloe', 'Morningstar', 'chloeMorningstar@ltu.edu', '1992-10-02', 'Female', 'Hall Manager', 'Hall', 120),
-	   (1193, 'Jeff', 'Grey', 'jgrey@ltu.edu', '1997-12-03', 'Male', 'Administrative Assistant', 'Residence Office', 156),
-	   (8893, 'Jerome', 'Powell', 'jpow@ltu.edu', '1974-04-02', 'Male', 'Cleaner', 'Hall', 237);
+	   (1193, 'Jeff', 'Grey', 'jgrey@ltu.edu', '1960-12-03', 'Male', 'Administrative Assistant', 'Residence Office', 156),
+	   (8893, 'Jerome', 'Powell', 'jpow@ltu.edu', '1961-04-02', 'Male', 'Cleaner', 'Hall', 237);
 
 Insert Into HallsOfResidence(residenceNo, hallName, addressNo, phoneNo, hallManagerNo)
 Values (3273, 'Ridley Hall', 437, 3709996789, 0113), (3253, 'Riley Hall', 437, 3709996789, 0113);

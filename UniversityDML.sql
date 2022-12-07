@@ -69,8 +69,13 @@ From Rooms
 Where residenceNo IS NOT NULL AND flatNo IS NULL
 
 -- Display the total number of places in each residence hall.
-Select Count(Rooms.placeNo) AS placesInHall
+Select HallsOfResidence.hallName, Count(Rooms.placeNo) AS placesInHall
 From Rooms
 left Join HallsOfResidence ON Rooms.residenceNo = HallsOfResidence.residenceNo
-Group By HallsOfResidence.residenceNo
+Where HallsOfResidence.residenceNo IS NOT NULL
+Group By HallsOfResidence.hallName
 
+-- Display the staff number, name, age, and current location of all members of the residence staff who are over 60 years old today.
+Select staffNo, firstName, lastName, DATEDIFF(YEAR, dateOfBirth, SYSDATETIME()) AS age, workLocation
+From ResidenceStaff
+Where DATEDIFF(YEAR, dateOfBirth, SYSDATETIME()) >= 60
