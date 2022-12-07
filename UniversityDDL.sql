@@ -175,7 +175,8 @@ CREATE TABLE dbo.Student (
 	adviserNo int NOT NULL,
 	residenceNo int,
 	flatNo int,
-	nextOfKinNo int NOT NULL,
+	placeNo int,
+	nextOfKinNo int,
 
 	FOREIGN KEY (addressNo) REFERENCES AddressTBL(addressNo),
 	FOREIGN KEY (bannerNo) REFERENCES StudentCategory(studentCategoryNo),
@@ -183,6 +184,7 @@ CREATE TABLE dbo.Student (
 	FOREIGN KEY (nextOfKinNo) REFERENCES NextOfKin(nextOfKinNo),
 	FOREIGN KEY (residenceNo) REFERENCES HallsOfResidence(residenceNo),
 	FOREIGN KEY (flatNo) REFERENCES StudentFlats(flatNo),
+	FOREIGN KEY (placeNo) REFERENCES Rooms(placeNo)
 );
 
 
