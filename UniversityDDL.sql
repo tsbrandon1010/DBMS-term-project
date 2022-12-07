@@ -88,11 +88,6 @@ CREATE TABLE dbo.AddressTBL (
 	postCode int
 );
 
-CREATE TABLE dbo.Rooms (
-	placeNo int NOT NULL PRIMARY KEY,
-	roomNo int NOT NULL,
-	monthlyRentRate int NOT NULL
-);
 
 CREATE TABLE dbo.StudentCategory (
 	studentCategoryNo int NOT NULL PRIMARY KEY,
@@ -127,9 +122,7 @@ CREATE TABLE dbo.StudentFlats (
 	apartmentNo int NOT NULL,
 	addressNo int NOT NULL,
 	numberOfRooms int CHECK (numberOfRooms > 2 AND numberOfRooms < 6),
-	placeNo int NOT NULL,
-	FOREIGN KEY (addressNo) REFERENCES AddressTBL(addressNo),
-	FOREIGN KEY (placeNo) REFERENCES Rooms(placeNo)
+	FOREIGN KEY (addressNo) REFERENCES AddressTBL(addressNo)
 );
 
 CREATE TABLE dbo.ResidenceStaff (
@@ -143,7 +136,9 @@ CREATE TABLE dbo.ResidenceStaff (
 								 position = 'Administrative Assistant' OR
 								 position = 'Cleaner'),
 	workLocation varchar(100) CHECK (workLocation = 'Residence Office' OR
-									 workLocation = 'Hall')
+									 workLocation = 'Hall'),
+	addressNo int NOT NULL,
+	FOREIGN KEY (addressNo) REFERENCES AddressTBL(addressNo)
 );
 
 CREATE TABLE dbo.HallsOfResidence (
@@ -152,10 +147,19 @@ CREATE TABLE dbo.HallsOfResidence (
 	addressNo int NOT NULL,
 	phoneNo char(10),
 	hallManagerNo int NOT NULL,
-	placeNo int NOT NULL,
+	roomLocationNo int,
 	FOREIGN KEY (addressNo) REFERENCES AddressTBL(addressNo),
-	FOREIGN KEY (hallManagerNo) REFERENCES ResidenceStaff(staffNo),
-	FOREIGN KEY (placeNo) REFERENCES Rooms(placeNo)
+	FOREIGN KEY (hallManagerNo) REFERENCES ResidenceStaff(staffNo)
+);
+
+CREATE TABLE dbo.Rooms (
+	placeNo int NOT NULL PRIMARY KEY,
+	roomNo int NOT NULL,
+	monthlyRentRate int NOT NULL,
+	residenceNo int,
+	flatNo int,
+	FOREIGN KEY (residenceNo) REFERENCES HallsOfResidence(residenceNo),
+	FOREIGN KEY (flatNo) REFERENCES StudentFlats(flatNo)
 );
 
 CREATE TABLE dbo.Student (
@@ -163,6 +167,7 @@ CREATE TABLE dbo.Student (
 	firstName varchar(100),
 	lastName varchar(100),
 	addressNo int NOT NULL,
+	studentCategoryNo int NOT NULL,
 	phoneNo char(10),
 	email varchar(100),
 	dateOfBirth DATE,
@@ -179,7 +184,7 @@ CREATE TABLE dbo.Student (
 	nextOfKinNo int,
 
 	FOREIGN KEY (addressNo) REFERENCES AddressTBL(addressNo),
-	FOREIGN KEY (bannerNo) REFERENCES StudentCategory(studentCategoryNo),
+	FOREIGN KEY (studentCategoryNo) REFERENCES StudentCategory(studentCategoryNo),
 	FOREIGN KEY (adviserNo) REFERENCES Adviser(adviserNo),
 	FOREIGN KEY (nextOfKinNo) REFERENCES NextOfKin(nextOfKinNo),
 	FOREIGN KEY (residenceNo) REFERENCES HallsOfResidence(residenceNo),
@@ -210,7 +215,7 @@ CREATE TABLE dbo.Payment (
 
 CREATE TABLE dbo.Leases (
 	leaseNo int NOT NULL PRIMARY KEY,
-	durationOfLease int, --- in months
+	durationOfLease int CHECK (durationOfLease >= 1 and durationOfLease <= 3), --- in semesters
 	bannerNo int NOT NULL,
 	placeNo int NOT NULL,
 	residenceNo int,
@@ -226,10 +231,10 @@ CREATE TABLE dbo.Leases (
 CREATE TABLE dbo.Invoices (
 	invoiceNo int NOT NULL PRIMARY KEY,
 	leaseNo int NOT NULL,
-	semester varchar(100),
+	semester varchar(100) check (semester = 'Fall' or semester = 'Spring' or semester = 'Summer'),
 	paymentDue DATE NOT NULL,
 	bannerNo int NOT NULL,
-	paymentNo int NOT NULL,
+	paymentNo int,
 	FOREIGN KEY (leaseNo) REFERENCES Leases(leaseNo),
 	FOREIGN KEY (paymentNo) REFERENCES Payment(paymentNo)
 );
