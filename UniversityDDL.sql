@@ -147,7 +147,6 @@ CREATE TABLE dbo.HallsOfResidence (
 	addressNo int NOT NULL,
 	phoneNo char(10),
 	hallManagerNo int NOT NULL,
-	roomLocationNo int,
 	FOREIGN KEY (addressNo) REFERENCES AddressTBL(addressNo),
 	FOREIGN KEY (hallManagerNo) REFERENCES ResidenceStaff(staffNo)
 );
